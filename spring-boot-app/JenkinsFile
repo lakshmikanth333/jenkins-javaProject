@@ -19,8 +19,8 @@ pipeline {
                     script {
                         sh """
                         cd spring-boot-app
-                        docker build -t java:v1 .
-                        docker run -d -p 80:80 -t java:v1 
+                        /usr/bin/docker build -t java:v1 .
+                        d/usr/bin/docker run -d -p 80:80 -t java:v1 
                         """
                     }
                 }
