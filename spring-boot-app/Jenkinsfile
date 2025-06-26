@@ -23,18 +23,18 @@ pipeline {
                 }
             }
         }
-            stage('Docker Build and run') {
-                steps {
-                    script {
-                        sh """
-                        cd spring-boot-app
-                        /usr/bin/docker build -t java:v1 .
-                        /usr/bin/docker run -d -p 80:80 -t java:v1 
-                        """
-                    }
+        stage('Docker Build and run') {
+            steps {
+                script {
+                    sh """
+                    cd spring-boot-app
+                    /usr/bin/docker build -t java:v1 .
+                    /usr/bin/docker run -d -p 80:80 -t java:v1 
+                    """
                 }
             }
-            stage('Sonar') {
+        }
+        stage('Sonar') {
                 steps {
                     script {
                         sh """
@@ -46,9 +46,9 @@ pipeline {
                         cd /opt/sonarqube/bin/linux-x86-64
                         ./sonar.sh start
                         """
-                    }
                 }
-            }
+             }
+        }
     }
     post {
         success {
