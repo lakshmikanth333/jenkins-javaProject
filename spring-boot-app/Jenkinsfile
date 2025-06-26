@@ -4,36 +4,36 @@ pipeline {
         disableConcurrentBuilds()
     }
     stages {
-        stage('MVN Install') {
-          steps {
-            script {
-                sh """
-                sudo yum install -y maven
-                """
-            }
-          }
-        }
-        stage('MVN clean') {
-            steps {
-                script {
-                    sh """
-                    cd spring-boot-app
-                    mvn clean package
-                    """ 
-                }
-            }
-        }
-        stage('Docker Build and run') {
-            steps {
-                script {
-                    sh """
-                    cd spring-boot-app
-                    /usr/bin/docker build -t java:v1 .
-                    /usr/bin/docker run -d -p 80:80 -t java:v1 
-                    """
-                }
-            }
-        }
+        // stage('MVN Install') {
+        //   steps {
+        //     script {
+        //         sh """
+        //         sudo yum install -y maven
+        //         """
+        //     }
+        //   }
+        // }
+        // stage('MVN clean') {
+        //     steps {
+        //         script {
+        //             sh """
+        //             cd spring-boot-app
+        //             mvn clean package
+        //             """ 
+        //         }
+        //     }
+        // }
+        // stage('Docker Build and run') {
+        //     steps {
+        //         script {
+        //             sh """
+        //             cd spring-boot-app
+        //             /usr/bin/docker build -t java:v1 .
+        //             /usr/bin/docker run -d -p 80:80 -t java:v1 
+        //             """
+        //         }
+        //     }
+        // }
         stage('Sonar') {
                 steps {
                     script {
