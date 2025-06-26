@@ -57,7 +57,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    withAWS(region: 'us-east-1', credentials: 'aws-ecr') { 
+                    withAWS(region: 'us-east-1', credentials: 'aws-kube'){
                     sh """
                     cd helm
                     helm upgrade --install java-app . --namespace java 
