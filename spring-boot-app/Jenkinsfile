@@ -1,43 +1,41 @@
 pipeline {
     agent { label 'agent-1'}
-    options {
-        disableConcurrentBuilds()
-    }
-    // stages {
-    //     stage('MVN Install') {
-    //       steps {
-    //         script {
-    //             sh """
-    //             sudo yum install -y maven
-    //             """
-    //         }
-    //       }
-    //     }
-    //     stage('MVN clean') {
-    //         steps {
-    //             script {
-    //                 sh """
-    //                 cd spring-boot-app
-    //                 mvn clean package
-    //                 """ 
-    //             }
-    //         }
-    //     }
-    //     stage('ECR') {
-    //         steps {
-    //             script {
-    //                 withAWS(region: 'us-east-1', credentials: 'aws-ecr') {
-    //                     def tag = "1.0-${env.BUILD_NUMBER}"
-    //                     sh """
-    //                     cd spring-boot-app
-    //                     aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 148761662695.dkr.ecr.us-east-1.amazonaws.com
-    //                     docker build -t 148761662695.dkr.ecr.us-east-1.amazonaws.com/java/project-1:1.0 .
-    //                     docker push 148761662695.dkr.ecr.us-east-1.amazonaws.com/java/project-1:1.0
-    //                     """
-    //                 }
-    //             }
-    //         }
-    //     }
+    
+    stages {
+        stage('MVN Install') {
+          steps {
+            script {
+                sh """
+                sudo yum install -y maven
+                """
+            }
+          }
+        }
+        stage('MVN clean') {
+            steps {
+                script {
+                    sh """
+                    cd spring-boot-app
+                    mvn clean package
+                    """ 
+                }
+            }
+        }
+        stage('ECR') {
+            steps {
+                script {
+                    withAWS(region: 'us-east-1', credentials: 'aws-ecr') {
+                        def tag = "1.0-${env.BUILD_NUMBER}"
+                        sh """
+                        cd spring-boot-app
+                        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 148761662695.dkr.ecr.us-east-1.amazonaws.com
+                        docker build -t 148761662695.dkr.ecr.us-east-1.amazonaws.com/java/project-1:1.0 .
+                        docker push 148761662695.dkr.ecr.us-east-1.amazonaws.com/java/project-1:1.0
+                        """
+                    }
+                }
+            }
+        }
         // stage('Sonar') {
         //         steps {
         //             script {
@@ -53,7 +51,6 @@ pipeline {
         //         }
         //      }
         // }
-    stages {
         stage('Deploy') {
             steps {
                 script {
