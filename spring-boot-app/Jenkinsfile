@@ -37,8 +37,8 @@ pipeline {
         stage('ECR') {
             steps {
                 script {
-                    sh """
                     withAWS(region: 'us-east-1', credentials: 'aws-ecr') {
+                        sh """
                         cd spring-boot-app
                         aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 148761662695.dkr.ecr.us-east-1.amazonaws.com
                         docker build -t 148761662695.dkr.ecr.us-east-1.amazonaws.com/java/project-1:1.0 .
@@ -63,6 +63,7 @@ pipeline {
         //      }
         // }
     }
+    }
     post {
         success {
             echo "pipeline success"
@@ -75,4 +76,5 @@ pipeline {
         }
     }
 }
+
 
