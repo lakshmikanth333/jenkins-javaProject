@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: java
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      type: {{ .Values.label.name }}
+  template:
+    metadata:
+      labels:
+        type: {{ .Values.label.name}}
+    spec:
+      containers:
+      - name: spring-boot
+        image: 
+        ports:
+        - containerPort: 80

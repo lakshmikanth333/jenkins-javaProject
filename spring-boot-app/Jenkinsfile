@@ -23,21 +23,11 @@ pipeline {
                 }
             }
         }
-        // stage('Docker Build and run') {
-        //     steps {
-        //         script {
-        //             sh """
-        //             cd spring-boot-app
-        //             /usr/bin/docker build -t java:v1 .
-        //             /usr/bin/docker run -d -p 80:80 -t java:v1 
-        //             """
-        //         }
-        //     }
-        // }
         stage('ECR') {
             steps {
                 script {
                     withAWS(region: 'us-east-1', credentials: 'aws-ecr') {
+                        def tag = "1.0-${env.BUILD_NUMBER}"
                         sh """
                         cd spring-boot-app
                         aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 148761662695.dkr.ecr.us-east-1.amazonaws.com
@@ -63,6 +53,19 @@ pipeline {
         //         }
         //      }
         // }
+        stage('Deploy') {
+            steps {
+                script {
+                    withAWS(region: 'us-east-1', credentials: 'aws-ecr') {
+                    sh """
+                    aws eks update-kubeconfig --region us-east-1 --name <clustername>
+                    cd helm
+                    helm upgrade --install java-app . --namespace java 
+                    """
+                    }
+                }
+            }
+        }
     }
     post {
         success {

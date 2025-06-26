@@ -1,0 +1,5 @@
+apiVersion: v2
+name: java-helm
+description: This helm is about to create a helm for the springboot-java
+version: 1.0.0
+appVersion: 1.3
